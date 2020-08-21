@@ -4,7 +4,7 @@ import passport from 'passport';
 
 import { Routes } from './routes';
 import mongoose from './db';
-import { BotManager } from '../bot'
+import { BotManager } from '../bot';
 
 const app: express.Application = express();
 const botManager = BotManager.getInstance();
@@ -15,7 +15,6 @@ app.use(passport.initialize());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/', new Routes().router);
-
 
 botManager.init();
 

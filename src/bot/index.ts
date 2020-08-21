@@ -1,6 +1,6 @@
 import Telegraf, { Context } from 'telegraf';
-import { Bot } from '../server/models/Bot'
-import { logFailed, logSuccess } from '../logger'
+import { Bot } from '../server/models/Bot';
+import { logFailed, logSuccess } from '../logger';
 
 type ctxType = typeof Context;
 
@@ -39,27 +39,26 @@ export class BotManager {
         return BotManager.instance;
     }
 
-
     /* Start all bots with status started */
     async init() {
-        const list = await Bot.find({status: 'started'}).exec();
+        const list = await Bot.find({ status: 'started' }).exec();
 
-        list.forEach(item => {
+        list.forEach((item) => {
             let bot = new BotInstance(item.token);
             this.add(bot, item.token, item.status);
             this.start(item.token, item._id);
-        })
+        });
     }
 
-    build(token:string){
+    build(token: string) {
         const bot = new BotInstance(token);
-        this.add(bot, token, 'created')
+        this.add(bot, token, 'created');
     }
 
     add(bot: BotInstance, token: string, status: string) {
         this.botInstanceList = {
             ...this.botInstanceList,
-            [token]: { instance: bot, status: status},
+            [token]: { instance: bot, status: status },
         };
     }
 
@@ -80,7 +79,7 @@ export class BotManager {
         logSuccess(`Bot id=${id} started`);
     }
 
-    stop(token: string, id:string) {
+    stop(token: string, id: string) {
         if (!this.botInstanceList[token]) {
             this.build(token);
         }

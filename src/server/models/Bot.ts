@@ -12,5 +12,4 @@ export const botSchema: Schema = new Schema({
     userId: String,
 });
 
-
 export const Bot: Model<IBot> = model<IBot>('Bot', botSchema);
