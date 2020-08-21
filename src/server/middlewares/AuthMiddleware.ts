@@ -1,13 +1,13 @@
 import { NextFunction, Request, Response } from 'express';
 import passport from 'passport';
 import '../pasport';
+import * as jwt from 'jsonwebtoken';
+import { JWT_SECRET } from '../secret';
 
 class AuthMiddleware {
-
     public authenticateJWT(req: Request, res: Response, next: NextFunction) {
         passport.authenticate('jwt', function (err, user, info) {
             if (err) {
-                console.log(err);
                 return res
                     .status(401)
                     .json({ status: 'error', code: 'unauthorized' });
@@ -46,6 +46,20 @@ class AuthMiddleware {
                 }
             }
         })(req, res, next);
+    }
+
+    public authorizeLocal(req: Request, res: Response, next: NextFunction) {
+        passport.authenticate('local', function (err, user, info) {
+            if (err) return next(err);
+            if (!user) {
+                return res
+                    .status(401)
+                    .json({ status: 'error', code: 'unauthorized' });
+            } else {
+                const token = jwt.sign({ username: user.username }, JWT_SECRET);
+                res.status(200).send({ token: token });
+            }
+        });
     }
 }
 

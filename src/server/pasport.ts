@@ -23,6 +23,7 @@ passport.use(
                             message: `username ${username} not found.`,
                         });
                     }
+
                     user.comparePassword(
                         password,
                         (err: Error, isMatch: boolean) => {
@@ -42,6 +43,10 @@ passport.use(
         },
     ),
 );
+
+passport.serializeUser(function (user, done) {
+    done(null, user);
+});
 
 passport.use(
     new JwtStrategy(

@@ -1,15 +1,17 @@
 import express from 'express';
+import bodyParser from 'body-parser';
+import passport from 'passport';
 
 import { Routes } from './routes';
-import mongoose from 'mongoose';
+import mongoose from './db';
 
 const app: express.Application = express();
 
-mongoose.connection.on(
-    'error',
-    console.error.bind(console, 'MongoDB connection error:'),
-);
+mongoose.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
+app.use(passport.initialize());
+app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/', new Routes().router);
 
 app.listen(3000, function () {

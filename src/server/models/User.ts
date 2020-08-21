@@ -19,7 +19,7 @@ userSchema.pre<IUser>('save', function save(next) {
             return next(err);
         }
         // @ts-ignore
-        bcrypt.hash(this.password, salt, undefined, (err: Error, hash) => {
+        bcrypt.hash(this.password, salt, (err: Error, hash) => {
             if (err) {
                 return next(err);
             }

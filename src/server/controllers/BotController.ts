@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import { BotInstance, BotManager } from '../../bot';
 
 export class BotController {
-
     public async start(req: Request, res: Response): Promise<void> {
         try {
             if (req.params) {
@@ -10,7 +9,7 @@ export class BotController {
                 const bot = await new BotInstance(token);
                 const botManager = await BotManager.getInstance();
 
-                await botManager.add(bot, token)
+                await botManager.add(bot, token);
                 await botManager.start(token);
 
                 res.send(`Bot ${req.params.token} started!`);
