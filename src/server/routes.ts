@@ -25,33 +25,13 @@ export class Routes {
         /* User routes */
 
         this.router.post('/sign_up', this.userController.registerUser);
-        this.router.post(
-            '/sign_in',
-            passport.authenticate('local'),
-            this.userController.authenticateUser,
-        );
+        this.router.post('/sign_in', passport.authenticate('local'), this.userController.authenticateUser);
 
         /* Bot routes */
 
-        this.router.get(
-            '/add/:token',
-            this.authMiddleware.authenticateJWT,
-            this.botController.start,
-        );
-        this.router.get(
-            '/start/:token',
-            this.authMiddleware.authenticateJWT,
-            this.botController.start,
-        );
-        this.router.get(
-            '/stop/:token',
-            this.authMiddleware.authenticateJWT,
-            this.botController.stop,
-        );
-        this.router.get(
-            '/bot_list',
-            this.authMiddleware.authenticateJWT,
-            this.botController.getList,
-        );
+        this.router.get('/add/:token', this.authMiddleware.authenticateJWT, this.botController.add);
+        this.router.get('/start/:id', this.authMiddleware.authenticateJWT, this.botController.start);
+        this.router.get('/stop/:id', this.authMiddleware.authenticateJWT, this.botController.stop);
+        this.router.get('/bot_list', this.authMiddleware.authenticateJWT, this.botController.getList);
     }
 }

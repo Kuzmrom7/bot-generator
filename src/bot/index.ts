@@ -1,7 +1,8 @@
 import Telegraf, { Context } from 'telegraf';
+import { Bot } from '../server/models/Bot'
+import { logFailed, logSuccess } from '../logger'
 
 type ctxType = typeof Context;
-type BotStatus = 'STARTED' | 'STOPPED';
 
 export class BotInstance {
     private bot: Telegraf<Context>;
@@ -28,7 +29,7 @@ export class BotInstance {
 }
 
 export class BotManager {
-    private botInstanceList: any;
+    private botInstanceList: any = {};
     private static instance: BotManager;
 
     public static getInstance(): BotManager {
@@ -38,15 +39,28 @@ export class BotManager {
         return BotManager.instance;
     }
 
-    add(bot: BotInstance, token: string) {
-        this.botInstanceList = {
-            ...this.botInstanceList,
-            [token]: { instance: bot, status: 'STOPPED' },
-        };
+
+    /* Start all bots with status started */
+    async init() {
+        const list = await Bot.find({status: 'started'}).exec();
+
+        list.forEach(item => {
+            let bot = new BotInstance(item.token);
+            this.add(bot, item.token, item.status);
+            this.start(item.token, item._id);
+        })
     }
 
-    get(token: string) {
-        return this.botInstanceList[token];
+    build(token:string){
+        const bot = new BotInstance(token);
+        this.add(bot, token, 'created')
+    }
+
+    add(bot: BotInstance, token: string, status: string) {
+        this.botInstanceList = {
+            ...this.botInstanceList,
+            [token]: { instance: bot, status: status},
+        };
     }
 
     getInfo() {
@@ -55,13 +69,25 @@ export class BotManager {
         }));
     }
 
-    start(token: string) {
+    start(token: string, id: string) {
+        if (!this.botInstanceList[token]) {
+            this.build(token);
+        }
+
         this.botInstanceList[token].instance.start();
-        this.botInstanceList[token].status = 'STARTED';
+        this.botInstanceList[token].status = 'started';
+
+        logSuccess(`Bot id=${id} started`);
     }
 
-    stop(token: string) {
+    stop(token: string, id:string) {
+        if (!this.botInstanceList[token]) {
+            this.build(token);
+        }
+
         this.botInstanceList[token].instance.stop();
-        this.botInstanceList[token].status = 'STOPPED';
+        this.botInstanceList[token].status = 'stopped';
+
+        logFailed(`Bot id=${id} stopped`);
     }
 }

@@ -1,9 +1,7 @@
 export const MONGODB_URI = 'localhost:27017';
 
 if (!MONGODB_URI) {
-    console.log(
-        'No mongo connection string. Set MONGODB_URI environment variable.',
-    );
+    console.log('No mongo connection string. Set MONGODB_URI environment variable.');
     process.exit(1);
 }
 

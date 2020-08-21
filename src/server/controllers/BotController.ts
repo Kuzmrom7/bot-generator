@@ -1,18 +1,15 @@
-import { Request, Response } from 'express';
-import { BotInstance, BotManager } from '../../bot';
+import {  Response } from 'express';
+import {  BotManager } from '../../bot';
+import { Bot } from '../models/Bot';
 
 export class BotController {
-    public async start(req: Request, res: Response): Promise<void> {
+    public async add(req: any, res: Response): Promise<void> {
         try {
             if (req.params) {
-                const token = req.params.token;
-                const bot = await new BotInstance(token);
-                const botManager = await BotManager.getInstance();
+                await Bot.create({ token: req.params.token, status: 'created', userId: req.user._id });
 
-                await botManager.add(bot, token);
-                await botManager.start(token);
+                await res.status(200).send({ message: `Bot ${req.params.token} created!` });
 
-                res.send(`Bot ${req.params.token} started!`);
             } else {
                 res.send('Token undefined');
             }
@@ -21,14 +18,20 @@ export class BotController {
         }
     }
 
-    public async stop(req: Request, res: Response): Promise<void> {
+    public async start(req: any, res: Response): Promise<void> {
         try {
             if (req.params) {
-                const token = req.params.token;
-                const botManager = BotManager.getInstance();
 
-                botManager.stop(token);
-                res.send(`Bot ${req.params.token} stopped!`);
+                const bot = await Bot.findOne({userId: req.user._id, _id: req.params.id})
+
+                if (bot) {
+                    const botManager = await BotManager.getInstance();
+                    await botManager.start(bot.token, req.params.id)
+                    await Bot.findByIdAndUpdate({_id: req.params.id}, {status : "started"})
+                }
+
+                await res.status(200).send({ message: `Bot ${req.params.id} started!` });
+
             } else {
                 res.send('Token undefined');
             }
@@ -37,12 +40,31 @@ export class BotController {
         }
     }
 
-    public async getList(req: Request, res: Response): Promise<void> {
+    public async stop(req: any, res: Response): Promise<void> {
         try {
-            const botManager = BotManager.getInstance();
-            const list = botManager.getInfo();
+            if (req.params) {
+                const bot = await Bot.findOne({userId: req.user._id, _id: req.params.id})
 
-            res.send(list);
+                if (bot) {
+                    const botManager = await BotManager.getInstance();
+                    await botManager.stop(bot.token, req.params.id)
+                    await Bot.findByIdAndUpdate({_id: req.params.id}, {status : "stopped"})
+                }
+
+                await res.status(200).send({ message: `Bot ${req.params.token} stopped!` });
+            } else {
+                res.send('Token undefined');
+            }
+        } catch (e) {
+            res.sendStatus(400).send(e);
+        }
+    }
+
+    public async getList(req: any, res: Response): Promise<void> {
+        try {
+            const list = await Bot.find({userId: req.user._id})
+            await res.status(200).send({ list: list });
+
         } catch (e) {
             res.sendStatus(400).send(e);
         }

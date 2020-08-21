@@ -29,17 +29,10 @@ userSchema.pre<IUser>('save', function save(next) {
     });
 });
 
-userSchema.methods.comparePassword = function (
-    candidatePassword: string,
-    callback: any,
-) {
-    bcrypt.compare(
-        candidatePassword,
-        this.password,
-        (err: Error, isMatch: boolean) => {
-            callback(err, isMatch);
-        },
-    );
+userSchema.methods.comparePassword = function (candidatePassword: string, callback: any) {
+    bcrypt.compare(candidatePassword, this.password, (err: Error, isMatch: boolean) => {
+        callback(err, isMatch);
+    });
 };
 
 export const User: Model<IUser> = model<IUser>('User', userSchema);

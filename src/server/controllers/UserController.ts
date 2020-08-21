@@ -11,26 +11,16 @@ export class UserController {
                 password: req.body.password,
             });
 
-            const token = await jwt.sign(
-                { username: req.body.username, scope: req.body.scope },
-                JWT_SECRET,
-            );
+            const token = await jwt.sign({ username: req.body.username, scope: req.body.scope }, JWT_SECRET);
             await res.status(200).send({ token: token });
         } catch (e) {
             res.send(e);
         }
     }
 
-    public async authenticateUser(
-        req: Request,
-        res: Response,
-        next: NextFunction,
-    ) {
+    public async authenticateUser(req: Request, res: Response, next: NextFunction) {
         try {
-            const token = await jwt.sign(
-                { username: req.body.username, scope: req.body.scope },
-                JWT_SECRET,
-            );
+            const token = await jwt.sign({ username: req.body.username, scope: req.body.scope }, JWT_SECRET);
             await res.status(200).send({ token: token });
         } catch (e) {
             res.send(e);
