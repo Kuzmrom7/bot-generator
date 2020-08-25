@@ -2,6 +2,8 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import passport from 'passport';
 
+require('dotenv').config()
+
 import { Routes } from './routes';
 import mongoose from './db';
 import { BotManager } from '../bot';
