@@ -22,12 +22,12 @@ export class Routes {
             res.send('Hello World!');
         });
 
-        /* User routes */
+        /** User routes */
 
         this.router.post('/sign_up', this.userController.registerUser);
         this.router.post('/sign_in', passport.authenticate('local'), this.userController.authenticateUser);
 
-        /* Bot routes */
+        /** Bot routes */
 
         this.router.get('/add/:token', this.authMiddleware.authenticateJWT, this.botController.add);
         this.router.get('/start/:id', this.authMiddleware.authenticateJWT, this.botController.start);

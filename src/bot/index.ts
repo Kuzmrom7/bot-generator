@@ -1,32 +1,6 @@
-import Telegraf, { Context } from 'telegraf';
 import { Bot } from '../server/models/Bot';
 import { logFailed, logSuccess } from '../logger';
-
-type ctxType = typeof Context;
-
-export class BotInstance {
-    private bot: Telegraf<Context>;
-
-    constructor(token: string) {
-        this.bot = new Telegraf(token);
-    }
-
-    start() {
-        // @ts-ignore
-        this.bot.start((ctx: ctxType) => ctx.reply('Welcome!'));
-        // @ts-ignore
-        this.bot.help((ctx: ctxType) => ctx.reply('Send me a sticker'));
-        // @ts-ignore
-        this.bot.on('sticker', (ctx: ctxType) => ctx.reply('👍'));
-        // @ts-ignore
-        this.bot.hears('hi', (ctx: ctxType) => ctx.reply('Hey there'));
-        this.bot.launch();
-    }
-
-    stop() {
-        this.bot.stop();
-    }
-}
+import { BotTgInstance } from './telegram'
 
 export class BotManager {
     private botInstanceList: any = {};
@@ -39,36 +13,43 @@ export class BotManager {
         return BotManager.instance;
     }
 
-    /* Start all bots with status started */
+    /**
+     * Start all bots with status === started
+     */
     async init() {
         const list = await Bot.find({ status: 'started' }).exec();
 
         list.forEach((item) => {
-            let bot = new BotInstance(item.token);
+            let bot = new BotTgInstance(item.token);
             this.add(bot, item.token, item.status);
             this.start(item.token, item._id);
         });
     }
 
+    /**
+     * Build bot instance by token
+     */
     build(token: string) {
-        const bot = new BotInstance(token);
+        const bot = new BotTgInstance(token);
         this.add(bot, token, 'created');
     }
 
-    add(bot: BotInstance, token: string, status: string) {
+    /**
+     * Add bot to bot instances list
+     */
+    add(bot: BotTgInstance, token: string, status: string) {
         this.botInstanceList = {
             ...this.botInstanceList,
             [token]: { instance: bot, status: status },
         };
     }
 
-    getInfo() {
-        return Object.keys(this.botInstanceList).map((item) => ({
-            [item]: { status: this.botInstanceList[item].status },
-        }));
-    }
 
-    start(token: string, id: string) {
+    /**
+     * Running bot by token
+     * Checking instances list if don't have bot we need a build instance
+     */
+    start(token: string, id?: string) {
         if (!this.botInstanceList[token]) {
             this.build(token);
         }
@@ -76,14 +57,13 @@ export class BotManager {
         this.botInstanceList[token].instance.start();
         this.botInstanceList[token].status = 'started';
 
-        logSuccess(`Bot id=${id} started`);
+        logSuccess(`Bot id=${id || ''} started`);
     }
 
+    /**
+     * Stopping bot by token
+     */
     stop(token: string, id: string) {
-        if (!this.botInstanceList[token]) {
-            this.build(token);
-        }
-
         this.botInstanceList[token].instance.stop();
         this.botInstanceList[token].status = 'stopped';
 
