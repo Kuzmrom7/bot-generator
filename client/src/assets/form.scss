@@ -1,0 +1,26 @@
+form {
+    width: 700px;
+    margin: 0 auto;
+    display: grid;
+    justify-content: center;
+    padding: 40px;
+    background-color: #e0e0e07d;
+}
+
+.input-form {
+    width: 400px;
+}
+
+.button-form {
+    margin-top: 10px;
+}
+
+.label-form {
+    text-align: left;
+}
+
+.grid-row {
+    display: grid;
+    align-items: center;
+    grid-auto-flow: column;
+}
