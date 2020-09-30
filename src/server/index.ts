@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import passport from 'passport';
+import cors from 'cors';
 
 require('dotenv').config()
 
@@ -13,6 +14,7 @@ const botManager = BotManager.getInstance();
 
 mongoose.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
+app.use(cors())
 app.use(passport.initialize());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
