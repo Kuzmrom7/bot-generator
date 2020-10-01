@@ -1,5 +1,5 @@
 <template>
-  <div class="home" v-if="!isEmptyBotList">
+  <div class="home" v-if="botStatus === 'loaded'">
     <div>
       <h1>Welcome to platform 🎉</h1>
     </div>
@@ -18,7 +18,7 @@ export default {
       this.register({ username: this.email, password: this.password });
     },
   },
-  computed: mapGetters(["isEmptyBotList"]),
+  computed: mapGetters(["isEmptyBotList", "botList", "botStatus"]),
   mounted() {
     this.fetchBotList();
   },

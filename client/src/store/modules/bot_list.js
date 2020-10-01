@@ -5,7 +5,7 @@ export default {
   state: {
     count: -1,
     list: [],
-    status: "",
+    status: "initial",
   },
   actions: {
     async fetchBotList({ commit }) {
@@ -17,6 +17,8 @@ export default {
 
         if (list.length === 0) {
           await router.push("/started");
+        } else {
+          await commit("SET_STATUS", "loaded");
         }
       } catch (error) {
         console.log(error);
@@ -26,7 +28,7 @@ export default {
     async addBot({ commit }, botToken) {
       try {
         await axios.get(`/add/${botToken}`);
-        await commit("SET_STATUS", "SUCCESS_ADDED");
+        await commit("SET_STATUS", "added");
 
         await router.push("/");
       } catch (error) {
@@ -50,6 +52,9 @@ export default {
     },
     botStatus(state) {
       return state.status;
+    },
+    botList(state) {
+      return state.list;
     },
   },
 };
