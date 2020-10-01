@@ -1,32 +1,33 @@
 <template>
-  <form @submit.prevent="register" class="form">
+  <form @submit.prevent="onSubmit" class="form">
     <div class="form-group">
       <h1>Sign Up</h1>
-      <label class="form-text text-muted label-form " for="name">Name</label>
+      <label class="form-text text-muted label-form" for="name">Name</label>
       <input
         id="name"
         type="text"
         class="form-control input-form"
-        placeholder="Your name"
+        placeholder="Roman Kuzmenko"
         v-model="name"
         required
         autofocus
       />
     </div>
     <div class="form-group">
-      <label class="form-text text-muted label-form ">Email</label>
+      <label class="form-text text-muted label-form">Email or username</label>
       <input
-        type="email"
+        type="text"
         class="form-control input-form"
         required
-        placeholder="Your email"
+        placeholder="example@google.com"
         v-model="email"
       />
     </div>
     <div class="form-group">
-      <label class="form-text text-muted label-form ">Password</label>
+      <label class="form-text text-muted label-form">Password</label>
       <input
         type="password"
+        minlength="8"
         class="form-control input-form"
         required
         placeholder="Your password"
@@ -35,10 +36,10 @@
     </div>
 
     <div class="grid-row">
-      <button class="btn btn-success button-form" type="submit">Sign Up</button>
+      <button class="btn btn-dark button-form" type="submit">Sign Up</button>
       <div>or</div>
       <button
-        class="btn btn-primary button-form"
+        class="btn btn-info button-form"
         type="submit"
         @click="$router.push('login')"
       >
@@ -50,6 +51,8 @@
 
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   data() {
     return {
@@ -59,8 +62,9 @@ export default {
     };
   },
   methods: {
-    register() {
-      console.log(this.email, this.password);
+    ...mapActions(["register"]),
+    onSubmit() {
+      this.register({ username: this.email, password: this.password });
     },
   },
 };

@@ -23,9 +23,12 @@
     </div>
 
     <div class="grid-row">
-      <button class="btn btn-success button-form" type="submit">Login</button>
+      <button class="btn btn-dark button-form" type="submit">Login</button>
       <div>or</div>
-      <button @click="$router.push('register')" class="btn btn-primary">
+      <button
+        @click="$router.push('register')"
+        class="btn btn-info button-form"
+      >
         Sign Up
       </button>
     </div>

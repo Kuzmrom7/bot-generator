@@ -1,4 +1,5 @@
 import router from "@/router";
+import axios from "axios";
 
 export default {
   state: {
@@ -9,46 +10,34 @@ export default {
   actions: {
     async login({ commit }, data) {
       try {
-        let response = await fetch("http://localhost:3000/sign_in", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json;charset=utf-8",
-          },
-          body: JSON.stringify(data),
-        });
-        let result = await response.json();
+        let response = await axios.post("/sign_in", data);
+        let result = await response.data;
 
         localStorage.setItem("token", result.token);
 
-        await commit("setUser", result.token);
+        await commit("SET_TOKEN", result.token);
         await router.push("/");
       } catch (e) {
-        console.log(e, "=e");
+        console.log(e, "e");
       }
     },
     async register({ commit }, data) {
       try {
-        let response = await fetch("http://localhost:3000/sign_up", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json;charset=utf-8",
-          },
-          body: JSON.stringify(data),
-        });
-        let result = await response.json();
+        let response = await axios.post("/sign_up", data);
+        let result = await response.data;
 
         localStorage.setItem("token", result.token);
 
-        await commit("setUser", result.token);
+        await commit("SET_TOKEN", result.token);
         await router.push("/");
       } catch (e) {
-        console.log(e, "=e");
+        console.log(e, "e");
       }
     },
     logout() {},
   },
   mutations: {
-    setUser(state, token) {
+    SET_TOKEN(state, token) {
       state.token = token;
     },
   },
