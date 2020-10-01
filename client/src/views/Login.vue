@@ -1,6 +1,6 @@
 <template>
   <form @submit.prevent="onSubmit" class="form">
-    <h1>Sign In</h1>
+    <h1>Вход 😎</h1>
     <div class="form-group">
       <label class="form-text text-muted label-form">Email:</label>
       <input
@@ -23,13 +23,13 @@
     </div>
 
     <div class="grid-row">
-      <button class="btn btn-dark button-form" type="submit">Login</button>
-      <div>or</div>
+      <button class="btn btn-dark button-form" type="submit">Войти</button>
+      <div>или</div>
       <button
         @click="$router.push('register')"
         class="btn btn-info button-form"
       >
-        Sign Up
+        Создать акк
       </button>
     </div>
   </form>

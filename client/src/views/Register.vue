@@ -1,7 +1,7 @@
 <template>
   <form @submit.prevent="onSubmit" class="form">
     <div class="form-group">
-      <h1>Sign Up</h1>
+      <h1>Регистрация 🎉</h1>
       <label class="form-text text-muted label-form" for="name">Name</label>
       <input
         id="name"
@@ -36,14 +36,14 @@
     </div>
 
     <div class="grid-row">
-      <button class="btn btn-dark button-form" type="submit">Sign Up</button>
-      <div>or</div>
+      <button class="btn btn-dark button-form" type="submit">Создать</button>
+      <div>или</div>
       <button
         class="btn btn-info button-form"
         type="submit"
         @click="$router.push('login')"
       >
-        Login
+        Войти
       </button>
     </div>
   </form>
