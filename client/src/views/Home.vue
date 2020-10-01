@@ -1,18 +1,28 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <BindBot v-if="isEmptyBotList" />
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import BindBot from "@/components/BindBot.vue";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
-  name: 'Home',
+  name: "Home",
   components: {
-    HelloWorld
-  }
-}
+    BindBot,
+  },
+  methods: {
+    ...mapActions(["fetchBotList"]),
+    onSubmit() {
+      this.register({ username: this.email, password: this.password });
+    },
+  },
+  computed: mapGetters(["isEmptyBotList"]),
+  mounted() {
+    this.fetchBotList();
+  },
+};
 </script>
+

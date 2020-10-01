@@ -4,16 +4,27 @@ import router from "./router";
 import store from "./store";
 import Axios from "axios";
 
+import "./assets/main.scss";
+
 Vue.config.productionTip = false;
+
+/* Setup axios configurate */
 Vue.prototype.$axios = Axios;
-
-const token = localStorage.getItem("token");
-if (token) {
-  Vue.prototype.$axios.defaults.headers.common["Authorization"] = token;
-}
-
 Vue.prototype.$axios.defaults.baseURL = "http://localhost:3000";
+Vue.prototype.$axios.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      config.headers["Authorization"] = "Bearer " + token;
+    }
+    return config;
+  },
+  (error) => {
+    Promise.reject(error);
+  }
+);
 
+/* Mount Vue App */
 new Vue({
   router,
   store,
