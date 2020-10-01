@@ -59,8 +59,8 @@ export class BotController {
 
     public async getList(req: any, res: Response): Promise<void> {
         try {
-            const list = await Bot.find({ userId: req.user._id });
-            await res.status(200).send({ list: list });
+            const list = await Bot.find({ userId: req.user._id }).exec();
+            res.status(200).send({ list: list });
         } catch (e) {
             res.sendStatus(400).send(e);
         }
