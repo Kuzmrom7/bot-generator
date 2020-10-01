@@ -1,18 +1,17 @@
 <template>
-  <div class="home">
-    <BindBot v-if="isEmptyBotList" />
+  <div class="home" v-if="!isEmptyBotList">
+    <div>
+      <h1>Welcome to platform 🎉</h1>
+    </div>
   </div>
 </template>
 
 <script>
-import BindBot from "@/components/BindBot.vue";
 import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "Home",
-  components: {
-    BindBot,
-  },
+  components: {},
   methods: {
     ...mapActions(["fetchBotList"]),
     onSubmit() {

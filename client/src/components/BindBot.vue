@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="container">
+    <div class="container" v-bind:class="{ disabled: step > 0 }">
       <h1>У вас еще не привязан бот 😟</h1>
       <button
         class="btn btn-outline-dark btn-app"
@@ -11,7 +11,11 @@
       </button>
     </div>
 
-    <div class="container fadeIn" v-if="step >= 1">
+    <div
+      class="container fadeIn"
+      v-if="step >= 1"
+      v-bind:class="{ disabled: step > 1 }"
+    >
       <h2>Нужно узнать токен бота 🧐</h2>
       <div>
         <button
@@ -99,6 +103,10 @@ export default {
   margin-top: 20px;
 }
 
+.disabled {
+  opacity: 0.7;
+  pointer-events: none;
+}
 button {
   width: 200px;
   justify-self: center;

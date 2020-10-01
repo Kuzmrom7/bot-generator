@@ -1,4 +1,5 @@
 import axios from "axios";
+import router from "@/router";
 
 export default {
   state: {
@@ -13,6 +14,10 @@ export default {
         const list = await resp.data.list;
 
         await commit("SET_BOT_LIST", list);
+
+        if (list.length === 0) {
+          await router.push("/started");
+        }
       } catch (error) {
         console.log(error);
       }
@@ -22,6 +27,8 @@ export default {
       try {
         await axios.get(`/add/${botToken}`);
         await commit("SET_STATUS", "SUCCESS_ADDED");
+
+        await router.push("/");
       } catch (error) {
         await commit("SET_STATUS", "FAILED_ADDED");
         console.log(error);
