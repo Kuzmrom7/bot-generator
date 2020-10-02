@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="onSubmit" class="form">
+  <form @submit.prevent="onSubmit" class="form form-login">
     <div class="form-group">
       <h1>Регистрация 🎉</h1>
       <label class="form-text text-muted label-form" for="name">Name</label>

@@ -2,7 +2,7 @@
     font-family: Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    text-align: center;
+
     color: #2c3e50;
 }
 
@@ -24,3 +24,17 @@
 .fadeIn {
     animation: fadeIn .2s ease-in;
 }
+
+.container-app {
+    width: 1280px;
+    margin: 0 auto;
+    justify-content: center;
+    padding: 40px;
+    // background-color: #EFF7F7;
+    background-color: #e0e0e07d;
+    min-height: 90vh;
+    margin-top: 20px;
+    border-radius: 20px;
+}
+
+.main-app {}
