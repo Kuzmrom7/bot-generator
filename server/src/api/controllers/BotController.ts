@@ -2,13 +2,19 @@ import { Response } from 'express';
 import { BotManager } from '../../bot';
 import { Bot } from '../models/Bot';
 
+import { uniqueNamesGenerator, adjectives, colors, animals } from 'unique-names-generator';
+
 export class BotController {
     public async add(req: any, res: Response): Promise<void> {
         try {
             if (req.params) {
-                await Bot.create({ token: req.params.token, status: 'created', userId: req.user._id });
+                await Bot.create({
+                    token: req.params.token, status: 'created', userId: req.user._id, name: req.user.name ? req.user.name : uniqueNamesGenerator({
+                        dictionaries: [colors, adjectives, animals]
+                    })
+                });
 
-                await res.status(200).send({ message: `Bot ${req.params.token} created!` });
+                res.status(200).send({ message: `Bot ${req.params.token} created!` });
             } else {
                 res.send('Token undefined');
             }

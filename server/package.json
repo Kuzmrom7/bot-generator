@@ -37,6 +37,7 @@
         "passport-local": "^1.0.0",
         "telegraf": "^3.38.0",
         "ts-node": "^8.10.2",
+        "unique-names-generator": "^4.3.1",
         "validator": "^13.1.1"
     },
     "devDependencies": {
