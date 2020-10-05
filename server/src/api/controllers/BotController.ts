@@ -9,9 +9,16 @@ export class BotController {
         try {
             if (req.params) {
                 await Bot.create({
-                    token: req.params.token, status: 'created', userId: req.user._id, name: req.user.name ? req.user.name : uniqueNamesGenerator({
-                        dictionaries: [colors, adjectives, animals]
-                    })
+                    token: req.params.token,
+                    status: 'created',
+                    userId: req.user._id,
+                    name: req.user.name ?
+                        req.user.name
+                        : uniqueNamesGenerator({
+                            dictionaries: [colors, animals],
+                            style: 'capital',
+                            separator: ' ',
+                        })
                 });
 
                 res.status(200).send({ message: `Bot ${req.params.token} created!` });
