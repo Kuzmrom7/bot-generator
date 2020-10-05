@@ -1,33 +1,47 @@
 <template>
-  <div class="menu-app">
-    <div class="menu-item" v-bind:class="{ 'menu-item__active': path === '/' }">
-      Все боты
-    </div>
-    <div
-      class="menu-item"
-      v-bind:class="{ 'menu-item__active': path === '/monitor' }"
-    >
-      Мониторинг
-    </div>
+  <div>
+    <div class="menu-app">
+      <div
+        class="menu-item"
+        v-bind:class="{ 'menu-item__active': path === '/' }"
+      >
+        Все боты
+      </div>
+      <div
+        class="menu-item"
+        v-bind:class="{ 'menu-item__active': path === '/monitor' }"
+      >
+        Мониторинг
+      </div>
 
-    <div class="menu-item">Чат-боты</div>
-    <div class="menu-item menu-item__left" @click="onClickAdd">
-      Добавить бота
+      <div class="menu-item">Чат-боты</div>
+      <div
+        v-bind:class="{ 'menu-item__active': isAddBotVisible }"
+        class="menu-item menu-item__left"
+        @click="onClickAdd"
+      >
+        Добавить бота
+      </div>
     </div>
+    <AddBotForm v-if="isAddBotVisible" @handleClose="onClickAdd" />
   </div>
 </template>
 
 
 <script>
+import AddBotForm from "./AddBotForm";
+
 export default {
+  components: { AddBotForm },
   data() {
     return {
       path: "",
+      isAddBotVisible: false,
     };
   },
   methods: {
     onClickAdd() {
-      this.$emit("handleAdd");
+      this.isAddBotVisible = !this.isAddBotVisible;
     },
   },
 

@@ -6,7 +6,7 @@
     <div class="bot-card__status"><span>Токен:</span> {{ bot.token }}</div>
 
     <div class="bot-card__btn">
-      <button class="btn btn-outline-dark btn-app">Нужно установить ⛏</button>
+      <button class="btn btn-outline-dark btn-app">Установить ⛏</button>
     </div>
   </div>
 </template>
@@ -26,7 +26,7 @@ export default {
 <style scoped lang="scss">
 .bot-card {
   position: relative;
-  width: 400px;
+  width: 380px;
   height: 200px;
   background: #ffffff;
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);

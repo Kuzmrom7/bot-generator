@@ -1,9 +1,5 @@
 <template>
   <div>
-    <Menu @handleAdd="onClickAdd" />
-
-    <AddBotForm v-if="isAddBotVisible" @handleClose="onClickAdd" />
-
     <div class="container-app">
       <div class="bot-list">
         <BotItem v-for="bot in botList" :key="bot._id" :bot="bot" />
@@ -14,14 +10,12 @@
 
 <script>
 import BotItem from "./BotItem";
-import AddBotForm from "./AddBotForm";
-import Menu from "./Menu";
 
 import { mapGetters } from "vuex";
 
 export default {
   computed: mapGetters(["botList"]),
-  components: { BotItem, AddBotForm, Menu },
+  components: { BotItem },
   data() {
     return {
       isAddBotVisible: false,
@@ -38,5 +32,6 @@ export default {
 <style lang="scss" scoped>
 .bot-list {
   display: flex;
+  flex-wrap: wrap;
 }
 </style>

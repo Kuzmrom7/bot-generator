@@ -1,18 +1,18 @@
 <template>
   <div class="home" v-if="botStatus === 'loaded'">
-    <Header />
+    <Menu />
     <BotList />
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import Header from "@/components/Header";
 import BotList from "@/components/BotList";
+import Menu from "@/components/Menu";
 
 export default {
   name: "Home",
-  components: { Header, BotList },
+  components: { BotList, Menu },
   methods: {
     ...mapActions(["fetchBotList"]),
     onSubmit() {
