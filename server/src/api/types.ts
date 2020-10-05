@@ -1,0 +1,1 @@
+export type BotType = 'none' | 'monitor' | 'default_logic';

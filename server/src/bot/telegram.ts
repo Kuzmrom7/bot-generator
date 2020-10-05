@@ -1,12 +1,19 @@
-import Telegraf, { Context } from 'telegraf'
+import { BotType } from './../api/types';
+import Telegraf, { Context, Telegram } from 'telegraf'
 
 type ctxType = typeof Context;
 
-export class BotTgInstance {
-    private bot: Telegraf<Context>;
 
-    constructor(token: string) {
-        this.bot = new Telegraf(token);
+export interface ITelegramBot {
+    start: () => void;
+    stop: () => void;
+}
+
+export class BotTgInstance implements ITelegramBot {
+    private bot: Telegraf<Context> | Telegram;
+
+    constructor(token: string, type: BotType) {
+        this.bot = type === "monitor" ? new Telegram(token) : new Telegraf(token);
     }
 
     /**
@@ -14,21 +21,32 @@ export class BotTgInstance {
      * here example logic for bot
      */
     start() {
-        // @ts-ignore
-        this.bot.start((ctx: ctxType) => ctx.reply('Welcome!'));
-        // @ts-ignore
-        this.bot.help((ctx: ctxType) => ctx.reply('Send me a sticker'));
-        // @ts-ignore
-        this.bot.on('sticker', (ctx: ctxType) => ctx.reply('👍'));
-        // @ts-ignore
-        this.bot.hears('hi', (ctx: ctxType) => ctx.reply('Hey there'));
-        this.bot.launch();
+        if (this.bot instanceof Telegram) {
+            // somecode
+        }
+
+        if (this.bot instanceof Telegraf) {
+            // @ts-ignore
+            this.bot.start((ctx: ctxType) => ctx.reply('Welcome!'));
+            // @ts-ignore
+            this.bot.help((ctx: ctxType) => ctx.reply('Send me a sticker'));
+            // @ts-ignore
+            this.bot.on('sticker', (ctx: ctxType) => ctx.reply('👍'));
+            // @ts-ignore
+            this.bot.hears('hi', (ctx: ctxType) => ctx.reply('Hey there'));
+            this.bot.launch();
+        }
+
+
     }
 
     /**
      * Stop instance bot
      */
     stop() {
-        this.bot.stop();
+        if (this.bot instanceof Telegraf) {
+            this.bot.stop();
+        }
+
     }
 }

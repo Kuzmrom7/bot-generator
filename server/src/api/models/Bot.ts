@@ -1,3 +1,4 @@
+import { BotType } from './../types';
 import { Schema, Document, Model, model } from 'mongoose';
 
 
@@ -6,7 +7,7 @@ export interface IBot extends Document {
     token: string;
     status: string;
     userId: string;
-    type?: 'none' | 'monitor' | 'logic';
+    type: BotType;
 }
 
 export const botSchema: Schema = new Schema({
@@ -16,7 +17,7 @@ export const botSchema: Schema = new Schema({
     userId: String,
     type: {
         type: String,
-        enum: ['none', 'monitor', 'logic'],
+        enum: ['none', 'monitor', 'default_logic'],
         default: "none"
     }
 });

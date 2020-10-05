@@ -1,3 +1,4 @@
+import { BotType } from './../api/types';
 import { Bot } from '../api/models/Bot';
 import { logFailed, logSuccess } from '../logger';
 import { BotTgInstance } from './telegram'
@@ -20,7 +21,7 @@ export class BotManager {
         const list = await Bot.find({ status: 'started' }).exec();
 
         list.forEach((item) => {
-            let bot = new BotTgInstance(item.token);
+            let bot = new BotTgInstance(item.token, item.type);
             this.add(bot, item.token, item.status);
             this.start(item.token, item._id);
         });
@@ -29,8 +30,8 @@ export class BotManager {
     /**
      * Build bot instance by token
      */
-    build(token: string) {
-        const bot = new BotTgInstance(token);
+    build(token: string, type: BotType) {
+        const bot = new BotTgInstance(token, type);
         this.add(bot, token, 'created');
     }
 
@@ -49,9 +50,9 @@ export class BotManager {
      * Running bot by token
      * Checking instances list if don't have bot we need a build instance
      */
-    start(token: string, id?: string) {
+    start(token: string, id?: string, type?: BotType,) {
         if (!this.botInstanceList[token]) {
-            this.build(token);
+            this.build(token, type = 'default_logic');
         }
 
         this.botInstanceList[token].instance.start();
@@ -69,4 +70,18 @@ export class BotManager {
 
         logFailed(`Bot id=${id} stopped`);
     }
+
+    /**
+    * Remove bot fron instance
+    */
+    remove(token: string, id: string) {
+        if (this.botInstanceList[token]) {
+            this.botInstanceList[token].instance.stop();
+            delete this.botInstanceList[token]
+
+            logFailed(`Bot id=${id} removed`);
+        }
+
+    }
+
 }
