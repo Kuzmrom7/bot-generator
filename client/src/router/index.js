@@ -15,6 +15,14 @@ const routes = [
     },
   },
   {
+    path: "/monitor",
+    name: "Home",
+    component: Home,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
     path: "/started",
     name: "Started",
     component: () => import("../views/Started.vue"),

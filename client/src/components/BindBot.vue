@@ -60,6 +60,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import router from "@/router";
 
 export default {
   data() {
@@ -85,7 +86,11 @@ export default {
         this.isLoading = false;
         return;
       }
-      this.addBot(this.token);
+      this.addBot(this.token).then((isSuccess) => {
+        if (isSuccess) {
+          router.push("/");
+        }
+      });
     },
   },
 };

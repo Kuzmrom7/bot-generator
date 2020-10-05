@@ -33,6 +33,7 @@ export default {
   border-radius: 20px;
   padding: 20px;
   text-align: left;
+  margin-right: 20px;
 
   &__status {
     margin-top: 8px;

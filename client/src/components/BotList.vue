@@ -1,9 +1,11 @@
 <template>
   <div>
-    <div class="container-app">
-      <h1>Ваши боты 🤖</h1>
+    <Menu @handleAdd="onClickAdd" />
 
-      <div>
+    <AddBotForm v-if="isAddBotVisible" @handleClose="onClickAdd" />
+
+    <div class="container-app">
+      <div class="bot-list">
         <BotItem v-for="bot in botList" :key="bot._id" :bot="bot" />
       </div>
     </div>
@@ -12,11 +14,24 @@
 
 <script>
 import BotItem from "./BotItem";
+import AddBotForm from "./AddBotForm";
+import Menu from "./Menu";
+
 import { mapGetters } from "vuex";
 
 export default {
   computed: mapGetters(["botList"]),
-  components: { BotItem },
+  components: { BotItem, AddBotForm, Menu },
+  data() {
+    return {
+      isAddBotVisible: false,
+    };
+  },
+  methods: {
+    onClickAdd() {
+      this.isAddBotVisible = !this.isAddBotVisible;
+    },
+  },
 };
 </script>
 

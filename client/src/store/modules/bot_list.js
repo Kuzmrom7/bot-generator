@@ -13,36 +13,33 @@ export default {
         const resp = await axios.get("/bot_list");
         const list = await resp.data.list;
 
-        await commit("SET_BOT_LIST", list);
+        await commit("setBotList", list);
 
         if (list.length === 0) {
           await router.push("/started");
         } else {
-          await commit("SET_STATUS", "loaded");
+          await commit("setStatus", "loaded");
         }
       } catch (error) {
         console.log(error);
       }
     },
 
-    async addBot({ commit }, botToken) {
+    async addBot(ctx, botToken) {
       try {
         await axios.get(`/add/${botToken}`);
-        await commit("SET_STATUS", "added");
-
-        await router.push("/");
+        return true;
       } catch (error) {
-        await commit("SET_STATUS", "FAILED_ADDED");
-        console.log(error);
+        return false;
       }
     },
   },
   mutations: {
-    SET_BOT_LIST(state, list) {
+    setBotList(state, list) {
       state.list = list;
       state.count = list.length;
     },
-    SET_STATUS(state, status) {
+    setStatus(state, status) {
       state.status = status;
     },
   },
