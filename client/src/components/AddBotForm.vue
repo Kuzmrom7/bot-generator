@@ -21,6 +21,12 @@
       </div>
 
       <div>
+        <button
+          class="btn btn-outline-dark btn-app"
+          @click.prevent="handleClose"
+        >
+          Закрыть
+        </button>
         <button class="btn btn-dark btn-app" v-if="isLoading">
           ...Секунду ⏳
         </button>
@@ -48,6 +54,9 @@ export default {
     ...mapActions(["addBot", "fetchBotList"]),
     onClick(step = 0) {
       this.step = step;
+    },
+    handleClose() {
+      this.$emit("handleClose");
     },
     onAddBot() {
       this.isLoading = true;

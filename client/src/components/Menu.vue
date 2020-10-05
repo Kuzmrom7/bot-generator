@@ -73,6 +73,7 @@ export default {
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
   margin-right: 10px;
   font-weight: 700;
+  transition: all 0.2s ease-out;
 
   &__active {
     color: white;
