@@ -113,4 +113,22 @@ export class BotController {
             res.sendStatus(400).send(e);
         }
     }
+
+    public async getBot(req: any, res: Response): Promise<void> {
+        try {
+
+            if (req.params) {
+
+                const bot = await Bot.findOne({ userId: req.user._id, _id: req.params.id }).exec();
+                res.status(200).send({ bot: bot });
+
+            } else {
+                res.send('Bot undefined');
+            }
+
+
+        } catch (e) {
+            res.sendStatus(400).send(e);
+        }
+    }
 }

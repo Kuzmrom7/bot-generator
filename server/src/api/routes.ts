@@ -33,6 +33,7 @@ export class Routes {
         this.router.get('/start/:id', this.authMiddleware.authenticateJWT, this.botController.start);
         this.router.get('/stop/:id', this.authMiddleware.authenticateJWT, this.botController.stop);
         this.router.get('/bot_list', this.authMiddleware.authenticateJWT, this.botController.getList);
+        this.router.get('/bot/:id', this.authMiddleware.authenticateJWT, this.botController.getBot);
 
         this.router.post('/bind_type', this.authMiddleware.authenticateJWT, this.botController.bindType);
     }
