@@ -67,7 +67,11 @@ export default {
         this.isLoading = false;
         return;
       }
-      this.addBot(this.token).then((isSuccess) => {
+
+      const data = { token: this.token };
+      if (this.name.length > 0) data.name = this.name;
+
+      this.addBot(data).then((isSuccess) => {
         if (isSuccess) {
           this.fetchBotList();
           this.isLoading = false;

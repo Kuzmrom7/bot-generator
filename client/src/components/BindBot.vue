@@ -44,6 +44,15 @@
           />
         </div>
 
+        <div class="form-group">
+          <input
+            type="text"
+            class="form-control form-control-lg input-form"
+            placeholder="Имя бота, но можно оставить пустым"
+            v-model="name"
+          />
+        </div>
+
         <div>
           <button class="btn btn-dark btn-app" v-if="isLoading">
             ...Секунду ⏳
@@ -67,6 +76,7 @@ export default {
     return {
       step: 0,
       token: "",
+      name: "",
       isLoading: false,
       isError: false,
     };
@@ -86,7 +96,11 @@ export default {
         this.isLoading = false;
         return;
       }
-      this.addBot(this.token).then((isSuccess) => {
+
+      const data = { token: this.token };
+      if (this.name.length > 0) data.name = this.name;
+
+      this.addBot(data).then((isSuccess) => {
         if (isSuccess) {
           router.push("/");
         }

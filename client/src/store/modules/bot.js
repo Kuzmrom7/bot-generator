@@ -9,9 +9,9 @@ export default {
     },
   },
   actions: {
-    async addBot(ctx, botToken) {
+    async addBot(ctx, data) {
       try {
-        await axios.get(`/add/${botToken}`);
+        await axios.post(`/add`, data);
         return true;
       } catch (error) {
         return false;
