@@ -2,11 +2,14 @@
   <div class="bot-card">
     <h3>{{ bot.name }}</h3>
 
-    <div class="bot-card__status"><span>Статус:</span> {{ bot.status }}</div>
+    <div class="bot-card__status"><span>Статус:</span> {{ getStatus }}</div>
     <div class="bot-card__status"><span>Токен:</span> {{ bot.token }}</div>
+    <div class="bot-card__status"><span>Тип:</span> {{ bot.type }}</div>
 
-    <div class="bot-card__btn">
-      <button class="btn btn-outline-dark btn-app">Установить ⛏</button>
+    <div class="bot-card__btn" v-if="bot.type === 'none'">
+      <button class="btn btn-outline-dark btn-app" @click.prevent="handleClick">
+        Установить ⛏
+      </button>
     </div>
   </div>
 </template>
@@ -18,6 +21,20 @@ export default {
     bot: {
       type: Object,
       required: true,
+    },
+  },
+  computed: {
+    getStatus() {
+      if (this.bot.status === "created") return "Не уставновлен";
+      if (this.bot.status === "started") return "Работает";
+      if (this.bot.status === "stopped") return "Остановлен";
+
+      return this.bot.status;
+    },
+  },
+  methods: {
+    handleClick() {
+      this.$router.push(`/setup/${this.bot._id}`);
     },
   },
 };
@@ -34,6 +51,14 @@ export default {
   padding: 20px;
   text-align: left;
   margin-right: 20px;
+
+  &__stopped {
+    border: 2px solid yellow;
+  }
+
+  &__started {
+    border: 2px solid green;
+  }
 
   &__status {
     margin-top: 8px;

@@ -24,15 +24,6 @@ export default {
         console.log(error);
       }
     },
-
-    async addBot(ctx, botToken) {
-      try {
-        await axios.get(`/add/${botToken}`);
-        return true;
-      } catch (error) {
-        return false;
-      }
-    },
   },
   mutations: {
     setBotList(state, list) {
@@ -52,6 +43,9 @@ export default {
     },
     botList(state) {
       return state.list;
+    },
+    botOne(state) {
+      return state.bot;
     },
   },
 };

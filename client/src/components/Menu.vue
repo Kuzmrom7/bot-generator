@@ -3,13 +3,15 @@
     <div class="menu-app">
       <div
         class="menu-item"
-        v-bind:class="{ 'menu-item__active': path === '/' }"
+        v-bind:class="{ 'menu-item__active': this.$route.path === '/' }"
+        @click="handlePush('/')"
       >
         Все боты
       </div>
       <div
         class="menu-item"
-        v-bind:class="{ 'menu-item__active': path === '/monitor' }"
+        v-bind:class="{ 'menu-item__active': this.$route.path === '/monitor' }"
+        @click="handlePush('/monitor')"
       >
         Мониторинг
       </div>
@@ -22,6 +24,7 @@
       >
         Добавить бота
       </div>
+      <div class="menu-item">Выйти</div>
     </div>
     <AddBotForm v-if="isAddBotVisible" @handleClose="onClickAdd" />
   </div>
@@ -42,6 +45,10 @@ export default {
   methods: {
     onClickAdd() {
       this.isAddBotVisible = !this.isAddBotVisible;
+    },
+
+    handlePush(path = "/") {
+      this.$router.push(path);
     },
   },
 

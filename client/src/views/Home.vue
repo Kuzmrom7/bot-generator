@@ -1,5 +1,5 @@
 <template>
-  <div class="home" v-if="botStatus === 'loaded'">
+  <div class="home fadeIn" v-if="botStatus === 'loaded'">
     <Menu />
     <BotList />
   </div>
