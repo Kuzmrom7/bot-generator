@@ -7,14 +7,14 @@ import { uniqueNamesGenerator, adjectives, colors, animals } from 'unique-names-
 export class BotController {
     public async add(req: any, res: Response): Promise<void> {
         try {
-            if (req.params) {
+            if (req.body && req.body.token) {
                 await Bot.create({
-                    token: req.params.token,
+                    token: req.body.token,
                     status: 'created',
                     userId: req.user._id,
                     type: 'none',
-                    name: req.user.name ?
-                        req.user.name
+                    name: req.body.name ?
+                        req.body.name
                         : uniqueNamesGenerator({
                             dictionaries: [colors, animals],
                             style: 'capital',
