@@ -34,7 +34,15 @@ export default {
         console.log(e, "e");
       }
     },
-    logout() {},
+    async logout({ commit }) {
+      try {
+        localStorage.removeItem("token");
+        await commit("SET_TOKEN", "");
+        await router.push("/login");
+      } catch (e) {
+        console.log(e, "e");
+      }
+    },
   },
   mutations: {
     SET_TOKEN(state, token) {

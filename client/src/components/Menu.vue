@@ -24,7 +24,7 @@
       >
         Добавить бота
       </div>
-      <div class="menu-item">Выйти</div>
+      <div class="menu-item" @click.prevent="logout">Выйти</div>
     </div>
     <AddBotForm v-if="isAddBotVisible" @handleClose="onClickAdd" />
   </div>
@@ -32,6 +32,7 @@
 
 
 <script>
+import { mapActions } from "vuex";
 import AddBotForm from "./AddBotForm";
 
 export default {
@@ -43,6 +44,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions(["logout"]),
     onClickAdd() {
       this.isAddBotVisible = !this.isAddBotVisible;
     },
@@ -80,7 +82,12 @@ export default {
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
   margin-right: 10px;
   font-weight: 700;
-  transition: all 0.2s ease-out;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    color: white;
+    background-color: #333;
+  }
 
   &__active {
     color: white;
