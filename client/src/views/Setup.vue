@@ -120,8 +120,10 @@ export default {
   methods: {
     ...mapActions(["bindType", "fetchBot"]),
     onSubmit() {
-      console.log(this.getBotData);
-      this.bindType({ _id: this.getBotData._id, type: this.getBotData.type });
+      this.bindType({
+        _id: this.getBotData._id,
+        type: this.getBotData.type,
+      }).then(() => this.$router.push("/"));
     },
   },
 
