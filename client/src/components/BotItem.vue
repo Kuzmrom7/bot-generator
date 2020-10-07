@@ -1,13 +1,40 @@
 <template>
-  <div class="bot-card">
+  <div
+    class="bot-card"
+    v-bind:class="{
+      'bot-card__started': bot.status === 'started',
+      'bot-card__stopped': bot.status === 'stopped',
+    }"
+  >
     <h3>{{ bot.name }}</h3>
 
     <div class="bot-card__status"><span>Статус:</span> {{ getStatus }}</div>
     <div class="bot-card__status"><span>Токен:</span> {{ bot.token }}</div>
-    <div class="bot-card__status"><span>Тип:</span> {{ bot.type }}</div>
+    <div class="bot-card__status"><span>Тип:</span> {{ getType }}</div>
+
+    <div class="bot-card__btn" v-if="bot.status === 'stopped'">
+      <button
+        class="btn btn-outline-dark btn-app-sm"
+        @click.prevent="handleStart"
+      >
+        ▶️
+      </button>
+    </div>
+
+    <div class="bot-card__btn" v-if="bot.status === 'started'">
+      <button
+        class="btn btn-outline-dark btn-app-sm"
+        @click.prevent="handleStop"
+      >
+        ⏸
+      </button>
+    </div>
 
     <div class="bot-card__btn" v-if="bot.type === 'none'">
-      <button class="btn btn-outline-dark btn-app" @click.prevent="handleClick">
+      <button
+        class="btn btn-outline-dark btn-app-sm"
+        @click.prevent="handleClick"
+      >
         Установить ⛏
       </button>
     </div>
@@ -16,6 +43,8 @@
 
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   props: {
     bot: {
@@ -31,10 +60,25 @@ export default {
 
       return this.bot.status;
     },
+    getType() {
+      if (this.bot.type === "none") return "Не уставновлен";
+      if (this.bot.type === "default_logic") return "Тестовая логика";
+      if (this.bot.type === "monitor") return "Монитор";
+
+      return this.bot.type;
+    },
   },
   methods: {
+    ...mapActions(["startBot", "stopBot"]),
     handleClick() {
       this.$router.push(`/setup/${this.bot._id}`);
+    },
+    handleStart() {
+      this.startBot(this.bot._id);
+    },
+
+    handleStop() {
+      this.stopBot(this.bot._id);
     },
   },
 };
@@ -53,11 +97,11 @@ export default {
   margin-right: 20px;
 
   &__stopped {
-    border: 2px solid yellow;
+    box-shadow: 0px 0px 10px 5px rgba(255, 230, 0, 0.16);
   }
 
   &__started {
-    border: 2px solid green;
+    box-shadow: 0px 0px 10px 5px rgba(14, 216, 71, 0.16);
   }
 
   &__status {

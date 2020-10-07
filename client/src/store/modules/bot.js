@@ -37,6 +37,26 @@ export default {
         return false;
       }
     },
+
+    async startBot({ dispatch }, id) {
+      try {
+        await axios.get(`/start/${id}`);
+        await dispatch("fetchBotList");
+        return true;
+      } catch (error) {
+        return false;
+      }
+    },
+
+    async stopBot({ dispatch }, id) {
+      try {
+        await axios.get(`/stop/${id}`);
+        await dispatch("fetchBotList");
+        return true;
+      } catch (error) {
+        return false;
+      }
+    },
   },
   mutations: {
     setBot(state, bot) {
