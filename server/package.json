@@ -4,7 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "start:server": "ts-node src/api/index.ts",
+        "start": "ts-node src/api/index.ts",
         "fmt": "prettier --write .",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
