@@ -1,3 +1,5 @@
+[![Actions Status](https://github.com/Kuzmrom7/bot-generator/workflows/CI/badge.svg)](https://github.com/Kuzmrom7/bot-generator/actions)
+
 # Bot generator
 
 ## Description
