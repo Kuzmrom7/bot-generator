@@ -10,7 +10,8 @@ Vue.config.productionTip = false;
 
 /* Setup axios configurate */
 Vue.prototype.$axios = Axios;
-Vue.prototype.$axios.defaults.baseURL = "http://localhost:3000";
+Vue.prototype.$axios.defaults.baseURL =
+  process.env.NODE_ENV === "production" ? "/api" : "http://localhost:8080";
 Vue.prototype.$axios.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");

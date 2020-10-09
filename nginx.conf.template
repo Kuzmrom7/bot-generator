@@ -1,0 +1,30 @@
+server {
+    listen 80;
+    # server_name example.com;
+    charset utf-8;
+    root /usr/share/nginx/html/bot-generator-ui;
+    index index.html index.htm;
+    # Always serve index.html for any request
+
+    location / {
+        root /usr/share/nginx/html/bot-generator-ui;
+        try_files $uri $uri/ /index.html;
+    }
+
+    location /api {
+        resolver 127.0.0.11 valid=30s;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        set $target bot-api:8080;
+        proxy_pass http://$target;
+    }
+
+
+    location /health {
+        access_log off;
+        return 200 "OK";
+    }
+
+    error_log /var/log/nginx/vue-app-error.log;
+    access_log /var/log/nginx/vue-app-access.log;
+}

@@ -20,10 +20,10 @@ app.use(cors());
 app.use(passport.initialize());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use('/', new Routes().router);
+app.use('/api', new Routes().router);
 
 botManager.init();
 
-app.listen(3000, function () {
-    console.log('App is listening on port 3000!');
+app.listen(8080, function () {
+    console.log('App is listening on port 8080!');
 });

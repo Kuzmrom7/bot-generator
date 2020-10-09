@@ -1,0 +1,19 @@
+version: "3"
+services:
+  bot-api:
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile.server
+    ports:
+      - "8080:8080"
+    container_name: bot-api
+  bot-ui:
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile.client
+    ports:
+      - 80:80
+      - 443:443
+    container_name: bot-ui
+    depends_on:
+      - bot-api
