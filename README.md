@@ -34,7 +34,7 @@
   yarn start
   ```
 
-- ## Also you can run all app usaging docker-compose
+- ## Also you can run all app using docker-compose
 
   ```
     docker-compose up --build
