@@ -1,7 +1,14 @@
 import mongoose from 'mongoose';
 
+export const MONGODB_URI = process.env.MONGODB_URI;
+
+if (!MONGODB_URI) {
+    console.log('No mongo connection string. Set MONGODB_URI environment variable.');
+    process.exit(1);
+}
+
 mongoose
-    .connect('mongodb+srv://roman:kuzmenko@cluster0.cl2qt.mongodb.net/bot?retryWrites=true&w=majority', {
+    .connect(MONGODB_URI, {
         useNewUrlParser: true,
     })
     .catch((e: Error) => {
